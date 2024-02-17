@@ -8,24 +8,29 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('name');
-            $table->string('title', 191);
+            $table->string('title');
             $table->text('description');
-            $table->timestamp('email_verified_at')->nullable();
-
+            $table->dateTime('deadline');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('division_id')->constrained('divisions');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('polls');
     }
